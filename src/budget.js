@@ -1,9 +1,10 @@
-export const TYPES = ['Lateral', 'Base', 'Tampo', 'Divisória', 'Prateleira', 'Porta', 'Frente', 'Travessa'];
+import { readyForBudget } from './review.js';
+export const TYPES = ['Tamponamento', 'Ripa', 'Lateral', 'Base', 'Tampo', 'Divisória', 'Prateleira', 'Porta', 'Frente', 'Travessa'];
 export function calculateBudget(pieces, prices) {
   const rows = pieces.map(piece => {
     const width = Math.max(0, Number(piece.width) || 0);
     const height = Math.max(0, Number(piece.height) || 0);
-    const quantity = Math.max(0, Math.floor(Number(piece.quantity) || 0));
+    const quantity = readyForBudget(piece) ? Number(piece.quantity) : 0;
     const edges = piece.edges || {};
     const meters = ((edges.top ? width : 0) + (edges.bottom ? width : 0) + (edges.left ? height : 0) + (edges.right ? height : 0)) * quantity / 1000;
     const cutCost = quantity * Math.max(0, Number(prices.cut) || 0);
