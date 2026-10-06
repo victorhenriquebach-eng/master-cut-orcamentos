@@ -31,7 +31,7 @@ app.innerHTML = `
 <header class="topbar"><a class="brand" href="./" aria-label="Master Cut início"><span class="brand-mark">M<span>╱</span></span><div>MASTER CUT<small>ORÇAMENTOS</small></div></a><span class="header-note"><span class="dot"></span>Seu ateliê, mais organizado</span><button class="button quiet" id="print">${icon('print')}<span>Imprimir orçamento</span></button></header>
 <main><div class="intro"><div><div class="eyebrow">DO PROJETO AO CORTE</div><h1>Seu próximo projeto<br>começa aqui<span>.</span></h1><p>Organize as peças. Defina os acabamentos. Calcule com clareza.</p></div><div class="version"><span class="dot"></span> Orçamento de móveis planejados</div></div>
 <div class="project-bar"><label for="project-name">NOME DO PROJETO<input id="project-name" placeholder="Ex.: Armário da cozinha" maxlength="120" value="${escape(state.name)}"></label><span id="save-status" role="status">${icon('check')} Salvo neste navegador</span></div>
-<div class="workspace"><section class="photo-panel panel"><div class="section-title"><div><span class="step">01</span><h2>Referência do móvel</h2></div><span class="badge">FOTO</span></div><div class="upload-zone" id="upload-zone"><div id="photo-placeholder"><span class="upload-icon">${icon('image')}</span><h3>Uma foto, um ponto de partida.</h3><p>Arraste a foto do móvel para cá<br>ou clique para escolher um arquivo</p><button class="button primary" id="choose-photo">${icon('plus')} Carregar foto</button><small>JPG, PNG ou WEBP · até 10 MB</small></div><div id="photo-stage" hidden><img id="photo" alt="Foto de referência do móvel" draggable="false"><div id="regions"></div><div id="drawing" hidden></div></div></div><input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" hidden><div class="photo-actions" hidden><span id="photo-name"></span><button class="text-button" id="remove-photo">Remover foto</button></div><div class="review-toolbar"><button class="button quiet" id="mark-piece">Marcar peça visível</button><button class="button quiet" id="mark-doubt">Marcar pendência</button><button class="text-button" id="cancel-mark" hidden>Cancelar marcação</button></div><p id="mark-status" role="status">Conferência manual · nenhum reconhecimento automático integrado.</p><p id="photo-error" class="error" role="alert"></p><div class="note"><span>i</span><p><strong>A foto é sua referência visual.</strong>Marque apenas partes suficientemente visíveis. Regiões ocultas ou incertas devem ser registradas como pendências. Medidas e materiais exigem confirmação humana.</p></div><div class="photo-footer"><span>FEITO PARA QUEM TRANSFORMA</span><strong>Ideias em móveis.</strong></div></section>
+<div class="workspace"><section class="photo-panel panel"><div class="section-title"><div><span class="step">01</span><h2>Referência do móvel</h2></div><span class="badge">FOTO</span></div><div class="upload-zone" id="upload-zone"><div id="photo-placeholder"><span class="upload-icon">${icon('image')}</span><h3>Uma foto, um ponto de partida.</h3><p>Arraste a foto do móvel para cá<br>ou clique para escolher um arquivo</p><button class="button primary" id="choose-photo">${icon('plus')} Carregar foto</button><small>JPG, PNG ou WEBP · até 10 MB</small></div><div id="photo-stage" hidden><img id="photo" alt="Foto de referência do móvel" draggable="false"><div id="regions"></div><div id="drawing" hidden></div></div></div><input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" hidden><div class="photo-actions" hidden><span id="photo-name"></span><button class="text-button" id="remove-photo">Remover foto</button></div><div class="auto-analysis"><button class="button primary" id="analyze-photo">Calcular material</button><p id="analysis-status">Carregue uma foto e clique em <strong>Calcular material</strong>.</p></div><div class="review-toolbar"><button class="button quiet" id="mark-piece">Marcar peça visível</button><button class="button quiet" id="mark-doubt">Marcar pendência</button><button class="text-button" id="cancel-mark" hidden>Cancelar marcação</button></div><p id="mark-status" role="status">Conferência manual · nenhum reconhecimento automático integrado.</p><p id="photo-error" class="error" role="alert"></p><div class="note"><span>i</span><p><strong>A foto é sua referência visual.</strong>Marque apenas partes suficientemente visíveis. Regiões ocultas ou incertas devem ser registradas como pendências. Medidas e materiais exigem confirmação humana.</p></div><div class="photo-footer"><span>FEITO PARA QUEM TRANSFORMA</span><strong>Ideias em móveis.</strong></div></section>
 <section class="pieces-panel panel"><div class="section-title"><div><span class="step">02</span><h2>Peças do projeto</h2></div><span class="badge" id="row-count">0 ITENS</span></div><div class="pieces-description"><p>Medidas em <strong>milímetros (mm)</strong>. Marque os lados que recebem fita.</p></div><div id="doubts"></div><div id="pieces"></div><div class="add-area"><label for="piece-type" class="sr-only">Tipo de peça a adicionar</label><select id="piece-type">${TYPES.map(type => `<option>${type}</option>`).join('')}</select><button class="button primary" id="add-piece">${icon('plus')} Adicionar peça</button></div><div class="suggestions"><span>ADICIONE RAPIDAMENTE</span><div>${TYPES.map(type => `<button class="chip" data-add="${type}">${icon('plus')}${type}</button>`).join('')}</div></div></section></div>
 <section class="budget panel"><div class="budget-heading"><div class="section-title"><div><span class="step">03</span><h2>Resumo do orçamento</h2></div></div><p>Corte e acabamento, sem complicação.</p><div class="rates"><label for="cut-price">Corte por peça (R$)<input id="cut-price" type="number" min="0" step="0.01" value="${state.cut}"></label><label for="edge-price">Fita por metro (R$)<input id="edge-price" type="number" min="0" step="0.01" value="${state.edge}"></label></div></div><div class="metric"><span>PEÇAS PARA CORTE</span><strong id="total-pieces">0<small> peças</small></strong><p id="cut-total">R$ 0,00 em cortes</p></div><div class="metric"><span>FITA DE BORDA</span><strong id="total-meters">0<small> m</small></strong><p id="edge-total">R$ 0,00 em fita</p></div><div class="grand-total"><span>VALOR TOTAL ESTIMADO</span><strong id="grand-total">R$ 0,00</strong><p>A soma de cortes + fita de borda</p></div></section><p class="disclaimer">Este orçamento considera somente cortes e fita de borda. Materiais, ferragens, montagem e perdas não estão incluídos.</p><footer><span>MASTER CUT <span class="footer-divider">/</span> Precisão em cada detalhe.</span><span>Medidas em mm · Valores em reais</span></footer></main>`;
 function persist() {
@@ -122,7 +122,9 @@ async function photoStore(action, value) {
     };
   });
 }
+let currentPhotoFile = null;
 function showPhoto(file) {
+  currentPhotoFile = file;
   if (photoUrl) URL.revokeObjectURL(photoUrl);
   photoUrl = URL.createObjectURL(file); photoName = file.name || 'Foto do projeto';
   document.querySelector('#photo').src = photoUrl;
@@ -147,6 +149,35 @@ async function loadPhoto(file) {
   showPhoto(file); cancelMark(); renderDoubts(); renderPieces(); error.textContent = '';
   try { await photoStore('put', { id: state.photoId, file }); } catch { error.textContent = 'A foto está disponível nesta sessão, mas não pôde ser salva para a próxima visita.'; }
 }
+async function analyzePhoto() {
+  const button = document.querySelector('#analyze-photo');
+  const status = document.querySelector('#analysis-status');
+  const error = document.querySelector('#photo-error');
+  if (!currentPhotoFile) { error.textContent = 'Carregue uma foto antes de calcular o material.'; return; }
+  error.textContent = ''; button.disabled = true; status.textContent = 'Analisando a foto e procurando somente móveis suficientemente visíveis…';
+  try {
+    const form = new FormData(); form.append('image', currentPhotoFile, currentPhotoFile.name || 'movel.jpg');
+    const response = await fetch('/api/analyze', { method: 'POST', body: form });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Não foi possível analisar a foto.');
+    const candidates = Array.isArray(data.candidates) ? data.candidates : [];
+    const doubts = Array.isArray(data.doubts) ? data.doubts : [];
+    const accepted = candidates.filter(item => item && TYPES.includes(item.type) && item.region && Number(item.confidence || 0) >= 0.62);
+    state.pieces = accepted.map(item => {
+      const placement = ['internal','external','glass'].includes(item.placement) ? item.placement : 'unknown';
+      const piece = newPiece(item.type);
+      piece.width = Math.max(0, Math.round(Number(item.width) || 0)); piece.height = Math.max(0, Math.round(Number(item.height) || 0)); piece.quantity = Math.max(1, Math.round(Number(item.quantity) || 1));
+      piece.placement = placement; piece.material = item.material || (placement === 'internal' ? 'MDF Branco TX' : ['external','glass'].includes(placement) ? 'MDF madeirado' : '');
+      piece.region = item.region; piece.edges = item.edges && typeof item.edges === 'object' ? { ...defaultEdges(piece.type, placement), ...item.edges } : defaultEdges(piece.type, placement);
+      piece.confirmed = false; piece.estimated = true; piece.reviewNote = item.reason || 'Medidas estimadas pela análise da foto.'; return piece;
+    });
+    state.doubts = doubts.filter(d => d?.region).map(d => ({ id: crypto.randomUUID(), region: d.region, question: d.question || 'Não consigo identificar esta região com segurança.', explanation: '', appliedExplanation: '', resolved: false }));
+    renderDoubts(); renderPieces();
+    status.textContent = accepted.length ? 'Análise concluída: ' + accepted.length + ' peça(s) estimada(s). Confira e confirme antes de entrar no orçamento.' : 'A IA não encontrou peças com segurança suficiente. Veja as pendências em vermelho.';
+  } catch (err) { error.textContent = err.message; status.textContent = 'A análise automática não foi concluída. O preenchimento manual continua disponível.'; }
+  finally { button.disabled = false; }
+}
+document.querySelector('#analyze-photo').addEventListener('click', analyzePhoto);
 document.querySelector('#choose-photo').addEventListener('click', () => document.querySelector('#photo-input').click());
 document.querySelector('#photo-input').addEventListener('change', event => { loadPhoto(event.target.files[0]); event.target.value = ''; });
 const upload = document.querySelector('#upload-zone');
@@ -154,7 +185,7 @@ for (const name of ['dragenter', 'dragover']) upload.addEventListener(name, even
 for (const name of ['dragleave', 'drop']) upload.addEventListener(name, event => { event.preventDefault(); upload.classList.remove('dragging'); if (name === 'drop') loadPhoto(event.dataTransfer.files[0]); });
 document.querySelector('#remove-photo').addEventListener('click', () => {
   if (!window.confirm('Remover a foto e suas marcações? As peças serão mantidas para nova conferência.')) return;
-  ++photoVersion; if (photoUrl) URL.revokeObjectURL(photoUrl); photoUrl = '';
+  ++photoVersion; if (photoUrl) URL.revokeObjectURL(photoUrl); photoUrl = ''; currentPhotoFile = null;
   state.photoId = null; state.doubts = []; state.pieces.forEach(p => { p.region = null; p.confirmed = false; });
   document.querySelector('#photo-stage').hidden = true; document.querySelector('#photo').removeAttribute('src');
   document.querySelector('#photo-placeholder').hidden = false; document.querySelector('.photo-actions').hidden = true;
